@@ -7,9 +7,9 @@
 <body bgcolor="#FFFFFF" text="#000000">
 <p>
 {!! Form::open(['route'=>'proyecto.index','method'=>'GET','data-parsley-validate'=>"",'class'=>'card card-sm']) !!}
-<input type="text" name="TITULO_PERFIL" id="tt" class='form-control form-control-lg form-control-borderless'data-parsley-pattern="^[a-zA-Z ]+$" placeholder="Buscar Perfil">
-{!! Form::submit('Buscar', ['class'=>'btn btn-lg btn-warning btn_White']) !!}
-{!! Form::submit('Resaltar', ['class'=>'btn btn-lg btn-warning btn_White','onclick' => 'resaltar()']) !!}
+<input type="text" name="TITULO_PERFIL" id="tt" class='form-control form-control-lg form-control-borderless'
+data-parsley-pattern="^[a-zA-Z ]+$" placeholder="Buscar Perfil" value="{{$TITULO_PERFIL}}">
+{!! Form::submit('Buscar', ['class'=>'btn btn-lg btn-warning btn_White', ]) !!}
 <span id="aa"> </span></p>
 <p> 
 <!--
@@ -18,7 +18,8 @@
       {!! Form::open(['route'=>'proyecto.index','method'=>'GET','data-parsley-validate'=>"",'class'=>'card card-sm']) !!}
         <div class="card-body row no-gutters align-items-center">
             <div class="col">
-              {!! Form::text('TITULO_PERFIL', null, ['class'=>'form-control form-control-lg form-control-borderless', 'data-parsley-pattern'=>"^[a-zA-Z ]+$",'placeholder'=>"Buscar Perfil"]) !!}
+              
+              {!! Form::text('TITULO_PERFIL',null, ['class'=>'form-control form-control-lg form-control-borderless', 'data-parsley-pattern'=>"^[a-zA-Z ]+$",'placeholder'=>"Buscar Perfil"]) !!}
             </div>
             <div class="col-auto">
               {!! Form::submit('Buscar', ['class'=>'btn btn-lg btn-warning btn_White']) !!}
@@ -36,6 +37,7 @@
     <thead class="thead-light">
       <tr>
         <th scope="col">Codigo</th>
+        <th scope="col">Modalidad</th>
         <th scope="col">Título</th>
         <th scope="col">Estudiante</th>
         <th scope="col">Tutor</th>
@@ -56,7 +58,18 @@
       @foreach($proyectos as $proyecto)
       @if ($proyecto->CICLO == 'en progreso')
       <tr>
-        <td>{{ $proyecto -> id}}</td>
+        <td>{{$proyecto->id}}</td>
+        @if(($inicial = $proyecto->modalidad->INICIAL) == 'TD')
+            <td>{{$inicial.''.$contTD++}}</td>
+        @elseif(($inicial = $proyecto->modalidad->INICIAL) == 'PI')
+            <td>{{$inicial.''.$contPI++}}</td>
+        @elseif(($inicial = $proyecto->modalidad->INICIAL) == 'PG')
+        <td>{{$inicial.''.$contPG++}}</td>
+        @elseif(($inicial = $proyecto->modalidad->INICIAL) == 'EX')
+        <td>{{$inicial.''.$contEX++}}</td>
+        @elseif(($inicial = $proyecto->modalidad->INICIAL) == 'AD')
+        <td>{{$inicial.''.$contAD++}}</td>
+        @endif
         <td>
           {{ $proyecto -> TITULO_PERFIL}} 
         </td>
@@ -119,7 +132,7 @@
 
 <script>
 var texto="";
-function resaltar(){
+window.onload = function(){
 var encontro=0;
 var donde=0;
 valor=document.getElementById('tt').value;

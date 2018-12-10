@@ -44,7 +44,7 @@ var table = '#mytable'
         })
     })
 
-<script>
+
   (function( $ ) {
     $.widget( "ui.combobox", {
       _create: function() {

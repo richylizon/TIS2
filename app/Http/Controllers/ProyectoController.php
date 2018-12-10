@@ -27,9 +27,16 @@ class ProyectoController extends Controller
      */
     public function index(Request $request)
     {
-        $proyectos = Proyecto::all();
-        $proyectos = Proyecto::Buscar($request->TITULO_PERFIL)->orderBy('id')->paginate(10);
-        return view('proyecto.lista')->with(compact('proyectos'));
+        $contTD = 1001;
+        $contPI = 1001;
+        $contPG = 1001;
+        $contEX = 1001;
+        $contAD = 1001;
+        $TITULO_PERFIL = $request->TITULO_PERFIL;
+        $proyectos = Proyecto::with('estudiante','modalidad')->get();
+       // dd($proyectos->toArray());
+        $proyectos = Proyecto::Buscar($TITULO_PERFIL)->orderBy('id')->paginate(10);
+        return view('proyecto.lista')->with(compact('proyectos','TITULO_PERFIL','contTD','contPI','contPG','contEX','contAD'));
     }
 
     /**
